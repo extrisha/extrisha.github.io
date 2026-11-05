@@ -1,0 +1,43 @@
+# 站点基础信息（改这里就能改全站标题/描述）
+title: LemonBerry
+description: >-
+  记录生活、代码和一些还没想明白的事。
+author: extrisha
+lang: zh-CN
+timezone: Asia/Shanghai
+
+# 用户主页仓库（<用户名>.github.io）的 baseurl 必须是空字符串
+url: "https://extrisha.github.io"
+baseurl: ""
+
+# 主题：minima 是 GitHub Pages 内置支持的主题，不需要额外安装
+theme: minima
+minima:
+  skin: classic
+  date_format: "%Y年%m月%d日"
+
+# 顶部导航栏显示的独立页面
+header_pages:
+  - about.md
+
+# GitHub Pages 白名单内的插件，会被自动构建
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+show_excerpts: true
+permalink: /:year/:month/:day/:title/
+
+# 默认值，写文章时不用每篇重复写
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: page
