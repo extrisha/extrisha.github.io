@@ -1,0 +1,45 @@
+# Sveltia CMS 配置（格式兼容 Decap CMS）。改完这个文件也要 push，线上才生效。
+
+backend:
+  name: github
+  repo: extrisha/extrisha.github.io
+  branch: main
+  # 故意不设 base_url：这样登录页会提供「Sign in with Token」，
+  # 用个人访问令牌直接登录，不需要额外部署 OAuth 服务。
+  commit_messages:
+    create: "cms: 新建 {{collection}} 「{{slug}}」"
+    update: "cms: 更新 {{collection}} 「{{slug}}」"
+    delete: "cms: 删除 {{collection}} 「{{slug}}」"
+
+site_url: https://extrisha.github.io
+display_url: https://extrisha.github.io
+
+# 图片上传到哪里、页面上以什么路径引用
+media_folder: "assets/images"
+public_folder: "/assets/images"
+
+locale: zh_Hans
+
+collections:
+  - name: "posts"
+    label: "文章"
+    label_singular: "文章"
+    folder: "_posts"
+    create: true
+    delete: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    preview_path: "{{year}}/{{month}}/{{day}}/{{slug}}/"
+    sortable_fields: ["date", "title"]
+    fields:
+      - label: "标题"
+        name: "title"
+        widget: "string"
+      - label: "发布日期"
+        name: "date"
+        widget: "datetime"
+        date_format: "YYYY-MM-DD"
+        time_format: "HH:mm"
+        format: "YYYY-MM-DD HH:mm:ss Z"
+      - label: "正文"
+        name: "body"
+        widget: "markdown"

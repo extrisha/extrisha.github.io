@@ -62,6 +62,8 @@ git push
 
 ### 2.1 完全在网页上写（不用装任何东西）
 
+> 最省事的是用站点自带的网页后台 `/admin/`，见**第五节**。下面这些是直接改仓库的方式，适合调配置或应急。
+
 仓库建好之后，日常维护可以 100% 在浏览器里完成：
 
 | 想做什么 | 操作 |
@@ -123,7 +125,38 @@ bundle exec jekyll serve --livereload
 
 ---
 
-## 五、几个容易踩的坑
+## 五、在自己的网站上编辑（/admin）
+
+站点上线后访问 **https://extrisha.github.io/admin/** ，就是一个完整的后台：文章列表、标题/日期/正文表单、图片拖拽上传、Publish 按钮。
+
+它用的是 [Sveltia CMS](https://sveltiacms.app/)（Decap CMS 的现代替代品），纯前端程序，不需要任何服务器。你登录后，它调用 GitHub API 直接往仓库提交 commit，所以效果和网页上改文件完全一样。
+
+### 第一次使用
+
+按提示点 **Sign in with Token**（用令牌登录），它会给你一个已经勾好权限的 GitHub 链接，生成一个 **fine-grained token**：
+
+- Repository access：只选 `extrisha.github.io` 这一个仓库
+- Permissions → Contents：**Read and write**
+
+生成后复制粘贴进去即可。令牌存在浏览器 localStorage，只在你自己的浏览器里。
+
+### 之后的日常
+
+打开 `/admin/` → 点「文章」→ 新建或编辑 → 写完点 **Publish** → 约 1 分钟上线。手机浏览器也能用。
+
+### 需要知道的三件事
+
+- **访问者能看到 `/admin/` 这个地址**，但没有 token 只会看到登录页，什么也做不了。配置文件 `admin/config.yml` 里没有任何秘密。
+- **token 等于密码**。别在公共电脑上留着；换电脑要重新登录；万一泄露，去 GitHub → Settings → Developer settings → Personal access tokens 里 Revoke。
+- **想在手机上写**，那个 token 粘贴起来很痛苦。要么在手机上重新生成一个，要么以后升级成 OAuth 登录（见下）。
+
+### 以后想升级成「点一下 GitHub 登录」
+
+如果想让不懂技术的朋友也能发文，就需要 OAuth 中转，因为 client_secret 不能放在静态页面里。做法是部署 [Sveltia CMS Authenticator](https://github.com/sveltia/sveltia-cms-auth) 到 Cloudflare Workers（免费），然后在 `admin/config.yml` 的 `backend` 下加一行 `base_url: https://你的worker地址`。需要的时候再说。
+
+---
+
+## 六、几个容易踩的坑
 
 - **仓库名写错**：叫 `blog` 之类的话，网址会变成 `extrisha.github.io/blog`，此时必须把 `_config.yml` 里的 `baseurl` 改成 `"/blog"`。
 - **文件没被识别**：文章必须在 `_posts/` 下，且文件名日期格式必须是 `2026-11-12-xxx.md`，`2026-11-12-xxx.MD` 或日期写成 `2026/11/12` 都不会生成页面。
@@ -142,7 +175,11 @@ bundle exec jekyll serve --livereload
 ├── index.md             # 首页
 ├── about.md             # 关于页
 ├── 404.html             # 404 页面
+├── admin/               # 网页后台（访问 /admin/）
+│   ├── index.html
+│   └── config.yml
 ├── _posts/              # 所有文章
 │   └── 2026-11-05-hello-world.md
+├── _drafts/             # 草稿，不参与构建
 └── assets/              # 图片等静态资源
 ```
