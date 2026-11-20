@@ -11,8 +11,8 @@ backend:
     update: "cms: 更新 {{collection}} 「{{slug}}」"
     delete: "cms: 删除 {{collection}} 「{{slug}}」"
 
-site_url: https://extrisha.github.io
-display_url: https://extrisha.github.io
+site_url: https://blog.victoirex.com
+display_url: https://blog.victoirex.com
 
 # 图片上传到哪里、页面上以什么路径引用
 media_folder: "assets/images"
