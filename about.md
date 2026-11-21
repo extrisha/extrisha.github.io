@@ -1,6 +1,6 @@
 ---
 title: Me
-permalink: victoirex.com
+permalink: /about/
 ---
 
 Welcome.
